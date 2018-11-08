@@ -87,7 +87,7 @@ def find_features(document):
 
 featuresets = [(find_features(rev), category) for (rev, category) in documents]
 
-save_features = open("featuresets.pickle", "wb")
+save_features = open("pickles/featuresets.pickle", "wb")
 pickle.dump(featuresets, save_features)
 save_features.close()
 

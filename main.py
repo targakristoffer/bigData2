@@ -92,7 +92,7 @@ class GUI(tk.Frame):
         path = "C:/Users/Y/Desktop/ny_styr/skeptics-texts/skeptics-texts"
         self.nodes = dict()
         frame = tk.Frame(rawTreeTab)
-        self.tree = ttk.Treeview(frame, height=7)
+        self.tree = ttk.Treeview(frame, height=10)
 
         ttk.Style().configure("Treeview", background="#383838", foreground="#FFF")
 
@@ -139,6 +139,7 @@ class GUI(tk.Frame):
         def firstButton():
             results = {}
             content = self.rawleftscreen.getContent()
+            results['TEXT'] = [content]
             results['POS'] = self.POS.find_POS(content)
             results['NER'] = self.NER.find_NER(content)
             self.textCollection = results
@@ -151,10 +152,9 @@ class GUI(tk.Frame):
         secondLabel = ttk.Label(buttonFrame, text=" ", font=("Helvitca", 12))
         secondLabel.grid(row=2, column=0)
         def secondButton():
-            content = self.rawleftscreen.getContent()
             collection = self.textCollection
             
-            sent_val, conf = self.Basic_NLP_Tasks.find_sentiment(content)
+            sent_val, conf = self.Basic_NLP_Tasks.find_sentiment(collection['TEXT'][0])
             collection['S.VAL'] = [sent_val]
             collection['S.CONF'] = [conf]
 

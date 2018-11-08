@@ -11,18 +11,32 @@ from sklearn.svm import SVC, LinearSVC, NuSVC
 
 from nltk.classify import ClassifierI
 from statistics import mode
+import statistics
 
 
 class VoteClassifier(ClassifierI):
     def __init__(self, *classifiers):
         self._classifiers = classifiers
+
+    def find_max_mode(self, list1):
+        list_table = statistics._counts(list1)
+        len_table = len(list_table)
+
+        if len_table == 1:
+            max_mode = statistics.mode(list1)
+        else:
+            new_list = []
+            for i in range(len_table):
+                new_list.append(list_table[i][0])
+            max_mode = max(new_list)
+        return max_mode
     
     def classify(self, features):
         votes = []
         for c in self._classifiers:
             v = c.classify(features)
             votes.append(v)
-        return mode(votes)
+        return self.find_max_mode(votes)
 
     def confidence(self, features):
         votes = []
@@ -30,7 +44,7 @@ class VoteClassifier(ClassifierI):
             v = c.classify(features)
             votes.append(v)
 
-        choice_votes = votes.count(mode(votes))
+        choice_votes = votes.count(self.find_max_mode(votes))
         conf = choice_votes / len(votes)
         return conf
 
