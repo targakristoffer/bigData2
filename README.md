@@ -1,2 +1,8 @@
-# bigData2
-we are big data
+# BigData
+Big data
+i
+g
+d
+a
+t
+a
