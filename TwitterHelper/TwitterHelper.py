@@ -32,9 +32,15 @@ class TwitterHelper():
             CREATE TABLE IF NOT EXISTS tweets (
                 id integer PRIMARY KEY,
                 content text NOT NULL,
-                data,
-                sentval text,
-                confidence integer);
+                date text NOT NULL,
+                userloc, 
+                userfollow, 
+                geo, 
+                coords, 
+                favcount, 
+                repcount,
+                sentval,
+                confidence);
         ''')
 
         conn.commit()
@@ -71,21 +77,31 @@ class TwitterConn(StreamListener):
  
             conn = sqlite3.connect('tweets.db')
             c = conn.cursor()
-            all_data = json.loads(data)
-            tweet = all_data["text"]
-
             
-            print(tweet)
-            info = (self.count, tweet)
+            all_data = json.loads(data)
+
+            tweet = all_data["text"]
+            date = all_data['created_at']
+            userloc = all_data['user']['location']
+            userfollow = all_data['user']['followers_count']
+            
+            geo = all_data['geo']
+            coords = all_data['coordinates']
+            favcount = all_data['favorite_count']
+            repcount = all_data['reply_count']
+            
+            
+            info = (self.count, tweet, date, userloc, userfollow, geo, coords, favcount, repcount)
+            self.count += 1
+            print(info)
 
             c.execute('''INSERT INTO tweets 
-            (id, content) VALUES (?, ?)
+            (id, content, date, userloc, userfollow, geo, coords, favcount, repcount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', info)
 
             conn.commit()
             conn.close()
-
-            self.count += 1    
+    
             return True
 
         except:

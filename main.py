@@ -59,7 +59,7 @@ class GUI(tk.Frame):
         headerFrame = tk.Frame(parent)
         headerFrame['highlightthickness'] = 2
         headerFrame['relief'] = 'groove'
-        totaltxt = ttk.Label(headerFrame, text="EM TEXT EXPLORER", font=("Times", 20))
+        totaltxt = ttk.Label(headerFrame, text="REAL TIME TWITTER EXPLORER", font=("Times", 20))
         totaltxt.pack()
         headerFrame.grid(row=0, column=0, columnspan=3, sticky=tk.NSEW)
         
@@ -100,6 +100,7 @@ class GUI(tk.Frame):
         xsb = ttk.Scrollbar(frame, orient='horizontal', command=self.tree.xview)
         self.tree.configure(yscroll=ysb.set, xscroll=xsb.set)
         self.tree.heading('#0', text="SELECT FILE", anchor='center')
+     
 
         self.tree.pack(fill='x')       
         frame.pack(fill='x')  
@@ -280,6 +281,7 @@ class GUI(tk.Frame):
 
         def purgeTweetButton():
             print('Deleting all tweets in db')
+            self.deleteAllTweets()
 
         btn_purgeTweet_row = 7
         btn_purgeTweet_column = 0
@@ -295,7 +297,7 @@ class GUI(tk.Frame):
         ### TWEET LEFT TEXT VIEW
         ##  
         #
-        self.tweetleftscreen = self.initLeftTextView(tweetLowerTab, lefttext, 21, 50)
+        self.tweetleftscreen = self.initLeftTextView(tweetLowerTab, lefttext, 21, 53)
 
         
         ### TWEET RUN-BUTTONS FRAME 
@@ -308,7 +310,6 @@ class GUI(tk.Frame):
         tweetFirstLabel = ttk.Label(tweetButtonFrame, text=" ", font=("Helvitca", 12))
         tweetFirstLabel.grid(row=0, column=0)
         def tweetFirstButton():
-            
             
             content = self.fetchContent()
             
@@ -450,11 +451,12 @@ class GUI(tk.Frame):
         print('----######----'*50)
         if(isinstance(text, dict)):
             for key, val in text.items():
-                self.tweetleftscreen.fill('\n[+] ' + str(key) + '\n')
+                self.tweetleftscreen.fill('\n[+] ' + str(key))
                 self.tweetleftscreen.fill('')
                 if(len(val) >= 1):
                     for item in val:
                         self.tweetleftscreen.fill('   --> ' + str(val[item]) + '\n')
+                    self.tweetleftscreen.fill('\n\n')
 
         elif(isinstance(text, list)):
             for a in text:
@@ -539,7 +541,19 @@ class GUI(tk.Frame):
 
         conn.commit()
         conn.close()
+    
+    def deleteAllTweets(self):
+        conn = sqlite3.connect('tweets.db')
+        c = conn.cursor()
 
+        c.execute('''
+            DROP TABLE IF EXISTS tweets
+                ''')
+
+        conn.commit()
+        conn.close()
+
+        self.loadTweetTextLeft(['DELETED ALL TWEETS'])
 
 
 
