@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 
 from Graphs.BarComp import BarComp
 from Graphs.ScatterComp import ScatterComp
+from Graphs.WordCloud import WordCloudComp
 
 class RightFrame(tk.Frame):
     def __init__(self, parent):
@@ -28,8 +29,8 @@ class RightFrame(tk.Frame):
         self.ScatterTab = ttk.Frame(tabController)
         tabController.add(self.ScatterTab, text="Scatter")
   
-        self.UnknownTab = ttk.Frame(tabController)
-        tabController.add(self.UnknownTab, text="Unknown")
+        self.CloudTab = ttk.Frame(tabController)
+        tabController.add(self.CloudTab, text="Wordcloud")
         
         self.BarTab = ttk.Frame(tabController)
         tabController.add(self.BarTab, text="Bar")
@@ -44,8 +45,10 @@ class RightFrame(tk.Frame):
         volume = 3
         self.scatterChart = ScatterComp()
         self.barChart = BarComp()
+        self.wordCloud = WordCloudComp()
 
         self.scatterChart.drawComp(self.ScatterTab, data, close, volume)
+        self.wordCloud.drawComp(self.CloudTab, 'DATA')
         self.barChart.drawComp(self.BarTab, data)
 
 
@@ -54,6 +57,9 @@ class RightFrame(tk.Frame):
 
     def changeBar(self, data):
         self.barChart.changeComp(self.BarTab, data)
+
+    def changeCloud(self, data):
+        self.wordCloud.changeComp(self.CloudTab, data)
     
     def changeScatter(self, data):
         close = 2

@@ -24,8 +24,25 @@ class BarComp():
         self.axBar = self.figBar.add_subplot(111)
 
         ind = np.arange(len(data[0]))
+        opacity = 0.4
+        bar_width = 0.35
+        #self.rects1 = self.axBar.bar(ind, data[0], align='center', alpha=0.5)
+
+
+        self.rects1 = self.axBar.bar(ind, data[0], bar_width,
+                alpha=opacity, align='center', color='b',
+                label='Favorites')
+
+        self.rects2 = self.axBar.bar(ind + bar_width, data[1], bar_width,
+                alpha=opacity, align='center', color='r',
+                label='Retweets')
+
+
         
-        self.rects1 = self.axBar.bar(ind, data[0], align='center', alpha=0.5)
+        self.axBar.set_xlabel('Tweet')
+        self.axBar.set_ylabel('Score')
+        self.axBar.set_title('Scores by fav and retweet')
+
         self.canvasBar = FigureCanvasTkAgg(self.figBar, master=parent)
         self.canvasBar.draw()
         self.canvasBar.get_tk_widget().grid()
@@ -34,8 +51,21 @@ class BarComp():
     
     def changeComp(self, parent, data):
         self.axBar.clear()
+        
         ind = np.arange(len(data[0]))
-        self.rects1 = self.axBar.bar(ind, data[0], align='center', alpha=0.5)
+        opacity = 0.4
+        bar_width = 0.35
+
+        self.rects1 = self.axBar.bar(ind, data[0], bar_width,
+                alpha=opacity, align='center', color='b',
+                label='Favorites')
+
+        self.rects2 = self.axBar.bar(ind + bar_width, data[1], bar_width,
+                alpha=opacity, align='center', color='r',
+                label='Retweets')
+
+
+        
 
         self.canvasBar.draw()
 

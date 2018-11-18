@@ -13,21 +13,19 @@ class MenuBar():
 
         menubar = tk.Menu(parent)
         filemenu = tk.Menu(menubar, tearoff=0)
-        filemenu.add_command(label="Åpne", command=hello)
-        filemenu.add_command(label="Lagre", command=hello)
+        filemenu.add_command(label="Open", command=hello)
+        filemenu.add_command(label="Save", command=hello)
         filemenu.add_separator()
-        filemenu.add_command(label="Gå ut", command=parent.quit)
-        menubar.add_cascade(label="Hovedmeny", menu=filemenu)
+        filemenu.add_command(label="Exit", command=parent.quit)
+        menubar.add_cascade(label="File", menu=filemenu)
 
         # create more pulldown menus
         editmenu = tk.Menu(menubar, tearoff=0)
-        editmenu.add_command(label="Klipp ut", command=hello)
-        editmenu.add_command(label="Kopier", command=hello)
-        editmenu.add_command(label="Lagre", command=hello)
-        menubar.add_cascade(label="Verktøy", menu=editmenu)
+        editmenu.add_command(label="Query", command=hello)
+        menubar.add_cascade(label="Tools", menu=editmenu)
 
         helpmenu = tk.Menu(menubar, tearoff=0)
-        helpmenu.add_command(label="Hvordan", command=hello)
-        menubar.add_cascade(label="Hjelp", menu=helpmenu)
+        helpmenu.add_command(label="???", command=hello)
+        menubar.add_cascade(label="Help", menu=helpmenu)
 
         parent.configure(menu=menubar)
